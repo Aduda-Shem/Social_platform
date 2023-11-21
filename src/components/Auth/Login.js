@@ -1,6 +1,5 @@
-// src/components/Auth.js
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert, Card, CardBody } from 'reactstrap';
 
 const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
     const [usernameOrEmail, setUsernameOrEmail] = useState('');
@@ -29,20 +28,13 @@ const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
     };
 
     return (
-        <div>
-            {isLoggedIn ? (
-                <div>
-                    <h2>Welcome, User!</h2>
-                    <Button color="danger" onClick={onLogout}>
-                        Logout
-                    </Button>
-                </div>
-            ) : (
-                <div>
-                    <h2>Login</h2>
+        <div className="container-fluid d-flex justify-content-center align-items-center vh-100 bg-primary">
+            <Card className="shadow p-4" style={{ width: '400px', borderRadius: '15px' }}>
+                <CardBody className="text-center">
+                    <h2 className="text-white mb-4">Login</h2>
                     <Form>
                         <FormGroup>
-                            <Label for="usernameOrEmail">Username or Email</Label>
+                            <Label for="usernameOrEmail" className="text-white">Username or Email</Label>
                             <Input
                                 type="text"
                                 name="usernameOrEmail"
@@ -53,7 +45,7 @@ const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Label for="password">Password</Label>
+                            <Label for="password" className="text-white">Password</Label>
                             <Input
                                 type="password"
                                 name="password"
@@ -63,13 +55,13 @@ const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </FormGroup>
-                        {error && <Alert color="danger">{error}</Alert>}
-                        <Button color="primary" onClick={handleLogin}>
+                        {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+                        <Button color="light" className="mt-3" onClick={handleLogin}>
                             Login
                         </Button>
                     </Form>
-                </div>
-            )}
+                </CardBody>
+            </Card>
         </div>
     );
 };

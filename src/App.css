@@ -1,0 +1,185 @@
+html {
+    position: relative;
+    min-height: 50%;
+  }
+  
+  body {
+    background-color: #9b9ed4;
+    margin-bottom: 100px;
+    font-family: "Oxygen", Arial, Helvetica, sans-serif;
+  }
+  
+  .App-logo {
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(219, 193, 193);
+  }
+  
+  .App-link {
+    color: #254047;
+  }
+  
+  @media (min-width: 300px) {
+    .call-to-action {
+      margin-top: 15px;
+    }
+  }
+  
+  @media (min-width: 576px) {
+    .call-to-action {
+      margin-top: 15px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    /* Styles for medium devices (tablets, 768px and up) */
+  }
+  
+  @media (min-width: 992px) {
+    /* Styles for large devices (desktops, 992px and up) */
+  }
+  
+  @media (min-width: 1200px) {
+    /* Styles for extra-large devices (large desktops, 1200px and up) */
+  }
+  
+  @media (min-width: 1400px) {
+    /* Styles for extra-extra-large devices (larger desktops, 1400px and up) */
+  }
+  
+  /* index */
+  @import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap");
+  
+  body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+    margin-bottom: 100px;
+  }
+  
+  code {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+  }
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .call-to-action {
+      margin-top: 15px;
+    }
+  }
+  
+  @media only screen and (min-width: 321px) {
+    .call-to-action {
+      margin-top: 15px;
+    }
+  }
+  
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Styles for iPads (portrait and landscape) */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    /* Styles for iPads (landscape) */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    /* Styles for iPads (portrait) */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+    /* Styles for iPad 3 (landscape) */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+    /* Styles for iPad 3 (portrait) */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-width: 1224px) {
+    /* Styles for desktops and laptops */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  @media only screen and (min-width: 1824px) {
+    /* Styles for large screens */
+    .call-to-action {
+      margin-top: -170px;
+    }
+  }
+  
+  
+  /* Stylings for Feeds page */
+  .tabs-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .nav-pills {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-pills .nav-link {
+    cursor: pointer;
+    margin-right: 25px;
+    font-size: 1.3em;
+    transition: font-size 0.2s ease; 
+  }
+  
+  .nav-pills .nav-link.active {
+    background-color: #363657;
+    color: #fff;
+    font-size: 2.0em;
+  }
+  
+  .button-design {
+    background-color: #363657;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button-design:hover {
+    background-color: #0056b3;
+  }
+  
