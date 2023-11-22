@@ -1,11 +1,9 @@
-// api.js
 const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 export const apiEndpoints = {
   posts: `${BASE_URL}/posts`,
   users: `${BASE_URL}/users`,
   comments: `${BASE_URL}/comments`,
-
 };
 
 export const apiCalls = {
@@ -18,7 +16,7 @@ export const apiCalls = {
       return response.json();
     } catch (error) {
       console.error('Error fetching posts:', error);
-      throw error; 
+      throw error;
     }
   },
 
@@ -31,11 +29,11 @@ export const apiCalls = {
       return response.json();
     } catch (error) {
       console.error('Error fetching users:', error);
-      throw error; 
+      throw error;
     }
   },
 
-fetchComments: async () => {
+  fetchComments: async () => {
     try {
       const response = await fetch(apiEndpoints.comments);
       if (!response.ok) {
@@ -44,9 +42,7 @@ fetchComments: async () => {
       return response.json();
     } catch (error) {
       console.error('Error fetching comments:', error);
-      throw error; 
+      throw error;
     }
   },
-
-  
 };

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, Alert, Card, CardBody } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, Alert } from 'reactstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Profile from './Profile';
 import { apiCalls } from '../../Data/Api';
 
 const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -35,58 +38,64 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
   };
 
   return (
-    <div>
-      {loggedInUser ? (
-        <Card className="m-2 p-3">
-          <CardBody>
-            <p className="mb-3">Welcome, {loggedInUser.username}!</p>
-            <Button color="primary" onClick={handleLogout}>
-              Logout
-            </Button>
-          </CardBody>
-        </Card>
-      ) : (
-        <Modal isOpen={isOpen} toggle={toggle} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96">
-          <ModalHeader toggle={toggle} className="bg-primary text-white">Login</ModalHeader>
-          <ModalBody>
-            <Card>
-              <CardBody>
-                <Form>
-                  <FormGroup>
-                    <Label for="usernameOrEmail">Username or Email</Label>
-                    <Input
-                      type="text"
-                      name="usernameOrEmail"
-                      id="usernameOrEmail"
-                      placeholder="Enter username or email"
-                      value={usernameOrEmail}
-                      onChange={(e) => setUsernameOrEmail(e.target.value)}
-                      className="border p-2 w-full"
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="password">Password</Label>
-                    <Input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="border p-2 w-full"
-                    />
-                  </FormGroup>
-                  {error && <Alert color="danger" className="mt-3">{error}</Alert>}
-                  <Button color="primary" className="mt-3" onClick={handleLogin}>
-                    Login
-                  </Button>
-                </Form>
-              </CardBody>
-            </Card>
-          </ModalBody>
-        </Modal>
-      )}
-    </div>
+    <>
+      {isOpen && <div className="fixed inset-0 backdrop-blur-md"></div>}
+      <Card className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 ${isOpen ? 'block' : 'hidden'} bg-gray-300`}>
+        <CardBody className="bg-gray-500 p-8 rounded-md shadow-lg text-white">
+          {loggedInUser ? (
+            <>
+              <CardTitle tag="h5" className="mb-3 text-xl font-semibold">Welcome, {loggedInUser.username}!</CardTitle>
+              <Profile user={loggedInUser} />
+              <Button color="primary" className="mt-3" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Form>
+              <FormGroup className="mb-4">
+                <Label for="usernameOrEmail" className="text-sm text-gray-300">Username or Email</Label>
+                <Input
+                  type="text"
+                  name="usernameOrEmail"
+                  id="usernameOrEmail"
+                  placeholder="Enter username or email"
+                  value={usernameOrEmail}
+                  onChange={(e) => setUsernameOrEmail(e.target.value)}
+                  className="border p-2 w-full bg-gray-400 text-black"
+                />
+              </FormGroup>
+              <FormGroup className="mb-4">
+                <Label for="password" className="text-sm text-gray-300">Password</Label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    id="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border p-2 w-full bg-gray-400 text-black"
+                  />
+                  <span
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash className="text-gray-300" /> : <FaEye className="text-gray-300" />}
+                  </span>
+                </div>
+              </FormGroup>
+              {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+              <Button color="primary" className="mt-3" onClick={handleLogin}>
+                Login
+              </Button>
+              <Button color="danger" className="mt-3 ml-3" onClick={toggle}>
+                Cancel
+              </Button>
+            </Form>
+          )}
+        </CardBody>
+      </Card>
+    </>
   );
 };
 

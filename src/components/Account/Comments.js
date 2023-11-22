@@ -20,7 +20,6 @@ const Comment = ({ post }) => {
       setIsLiked(true);
       setLikes(likes + 1);
 
-      // If liked, disable dislike
       setIsDisliked(false);
       setDislikes(dislikes > 0 ? dislikes - 1 : 0);
     }
@@ -31,7 +30,6 @@ const Comment = ({ post }) => {
       setIsDisliked(true);
       setDislikes(dislikes + 1);
 
-      // If disliked, disable like
       setIsLiked(false);
       setLikes(likes > 0 ? likes - 1 : 0);
     }
