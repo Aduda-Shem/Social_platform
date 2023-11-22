@@ -9,7 +9,6 @@ const Header = () => {
   return (
     <Router>
       <div className="nav-wrap">
-        
         <Navbar expand="lg" className="justify-content-end">
           <Container>
             <Navbar.Brand>
@@ -19,8 +18,10 @@ const Header = () => {
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+            {/* Move the Navbar.Collapse outside the Container */}
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav>
+              <Nav className="ml-auto"> {/* Add the ml-auto class to align items to the right */}
                 <Nav.Item>
                   <NavLink to="/home" activeClassName="selected">
                     Home

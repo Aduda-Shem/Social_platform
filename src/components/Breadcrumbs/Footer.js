@@ -1,19 +1,20 @@
+// Footer.js
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import './breadcrumbs.css';
 
 const Footer = () => {
   return (
-    <footer className="footer-area text-center">
+    <footer className="bg-gray-100 py-5 text-center">
       <Container>
         <Row>
-          <Col xs={13} md={13}>
-            <p className="footer-text">
-              Created with by{" "}
+          <Col xs={12} md={12}>
+            <p className="text-sm text-gray-600">
+              Created by{' '}
               <a
-                href=""
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
               >
                 Aduda Shem
               </a>
