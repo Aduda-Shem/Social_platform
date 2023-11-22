@@ -32,13 +32,17 @@ const Comment = ({ post }) => {
   return (
     <Card className="mb-4">
       <CardBody>
-        <CardTitle tag="h5">{post.title}</CardTitle>
-        <CardText>{post.body}</CardText>
+        {post && post.title && (
+          <CardTitle tag="h5">{post.title}</CardTitle>
+        )}
+        {post && post.body && (
+          <CardText>{post.body}</CardText>
+        )}
         <h6>Comments:</h6>
         {comments.map((comment) => (
           <div key={comment.id} className="comment">
-            <Badge color="primary">{comment.name}</Badge>
-            <p>{comment.body}</p>
+            <Badge color="primary">{comment.name || 'Anonymous'}</Badge>
+            <p>{comment.body || 'No comment body available'}</p>
           </div>
         ))}
         {showAllComments && (

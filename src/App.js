@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Button, Card, CardBody } from 'reactstrap';
+import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Button, Card } from 'reactstrap';
 import classnames from 'classnames';
 import Feed from './components/Account/Feed';
 import Following from './components/Account/Following';
@@ -42,13 +42,15 @@ const App = () => {
   }, [isLoggedIn, isPremiumUser, remainingFreePosts]);
 
   return (
-    <Container className="mx-auto max-w-6xl p-4">
-      <img src="/path/to/your/logo.png" alt="Logo" className="mb-4" />
-      <h1 className="text-3xl font-bold mb-4 animate__animated animate__fadeInUp">
-        Welcome to ELewa Social Platform
-      </h1>
+    <Container className="mx-auto max-w-6xl p-4 font-sans">
+      <Card>
+        <img src="/src/logo.jpg" alt="Logo" className="mb-4" />
+        <h1 className="text-3xl font-bold mb-4 animate__animated animate__fadeInUp">
+          Welcome to ELewa Social Platform
+        </h1>
+      </Card>
 
-      <Card className="p-4 bg-gray-100 mb-4 animate__animated animate__fadeIn">
+      <Card className="p-4 bg-gray-100 mb-4 animate__animated animate__fadeIn rounded-lg shadow-md">
         <Nav pills className="flex items-center justify-end space-x-4 animate__animated animate__fadeIn">
           <NavItem>
             <NavLink
@@ -86,32 +88,27 @@ const App = () => {
         </Nav>
       </Card>
 
-      {/* Content Based on Active Tab */}
       <TabContent>
         <TabPane>
-          <Feed
-            isLoggedIn={isLoggedIn}
-            isPremiumUser={isPremiumUser}
-            remainingFreePosts={remainingFreePosts}
-            onBlockUser={handleBlockUser}
-          />
+          {activeTab === 'feed' && (
+            <Feed isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} remainingFreePosts={remainingFreePosts} onBlockUser={handleBlockUser} />
+          )}
         </TabPane>
 
         <TabPane>
-          <Following isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />
+          {activeTab === 'following' && <Following isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />}
         </TabPane>
 
         <TabPane>
-          <MyPosts isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />
+          {activeTab === 'myPosts' && <MyPosts isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />}
         </TabPane>
       </TabContent>
 
-      {/* Login Button */}
       {!isLoggedIn && (
         <Row>
           <Col md={12}>
             <div className="text-center mt-3 animate__animated animate__fadeIn">
-              <Button className="bg-blue-500 text-white hover:bg-blue-700" onClick={() => setShowLogin(true)}>
+              <Button className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-full" onClick={() => setShowLogin(true)}>
                 Login
               </Button>
             </div>
@@ -119,7 +116,6 @@ const App = () => {
         </Row>
       )}
 
-      {/* Login */}
       <Login isOpen={showLogin} toggle={() => setShowLogin(!showLogin)} onLogin={handleLogin} />
       <Footer />
     </Container>
