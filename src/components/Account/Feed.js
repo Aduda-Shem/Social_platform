@@ -8,6 +8,7 @@ const Feed = ({ isLoggedIn }) => {
   const [posts, setPosts] = useState([]);
   const [showPaywall, setShowPaywall] = useState(false);
   const [postsViewed, setPostsViewed] = useState(0);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     const storedPostsViewed = localStorage.getItem('postsViewed');
@@ -19,7 +20,8 @@ const Feed = ({ isLoggedIn }) => {
       .catch(error => console.error('Error fetching posts:', error));
   }, []);
 
-  const handlePostView = () => {
+  const handlePostView = (post) => {
+    setSelectedPost(post);
     setPostsViewed(postsViewed + 1);
   };
 
@@ -30,6 +32,10 @@ const Feed = ({ isLoggedIn }) => {
     }
   }, [postsViewed, isLoggedIn]);
 
+  const closeModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <Container className="py-8">
       <Row>
@@ -39,20 +45,45 @@ const Feed = ({ isLoggedIn }) => {
               <Col key={post.id} md={4}>
                 <Post key={post.id} data={post} showComments={true}>
                   <Comments postId={post.id} />
-                  <button onClick={handlePostView}>View Post</button>
+                  {(isLoggedIn || postsViewed < 20) && (
+                    <button
+                      onClick={() => handlePostView(post)}
+                      className="bg-blue-500 text-white px-4 py-2 rounded-full mt-4 transition duration-500 ease-in-out transform hover:scale-105"
+                    >
+                      View Post
+                    </button>
+                  )}
                 </Post>
               </Col>
             ))}
           </Row>
           {showPaywall && (
-            <div>
-              {/* Display paywall */}
-              <p>Pay to access more posts!</p>
-              {/* You can include a payment button or link to initiate the premium membership process */}
+            <div className="p-4 bg-gray-100 border border-gray-300 rounded-md">
+              <p className="text-xl font-semibold mb-2">Upgrade to Premium</p>
+              <p>Unlock unlimited access to posts by upgrading to our Premium membership.</p>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded-full mt-4 transition duration-500 ease-in-out transform hover:scale-105">
+                Upgrade Now
+              </button>
             </div>
           )}
         </Col>
       </Row>
+
+      {/* Modal for displaying the selected post and comments */}
+      {selectedPost && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <div className="bg-white p-4 rounded-md">
+            <button className="absolute top-2 right-2 text-xl font-bold" onClick={closeModal}>
+              X
+            </button>
+            <Post data={selectedPost} showComments={true} />
+            <Comments postId={selectedPost.id} />
+            <button className="bg-red-500 text-white px-4 py-2 rounded-full mt-4" onClick={closeModal}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </Container>
   );
 };

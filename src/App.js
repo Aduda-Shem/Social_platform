@@ -43,8 +43,8 @@ const App = () => {
 
   return (
     <Container className="mx-auto max-w-6xl p-4 font-sans">
-      <Card>
-        <img src="/src/logo.jpg" alt="Logo" className="mb-4" />
+      <Card className="bg-gradient-to-r from-purple-500 to-indigo-600 p-8 mb-8 rounded-lg shadow-lg text-white">
+        <img src="/src/logo.jpg" alt="Logo" className="mb-4 animate__animated animate__fadeInDown" />
         <h1 className="text-3xl font-bold mb-4 animate__animated animate__fadeInUp">
           Welcome to ELewa Social Platform
         </h1>
@@ -108,7 +108,7 @@ const App = () => {
         <Row>
           <Col md={12}>
             <div className="text-center mt-3 animate__animated animate__fadeIn">
-              <Button className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-full" onClick={() => setShowLogin(true)}>
+              <Button className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-full transition duration-500 ease-in-out transform hover:scale-105" onClick={() => setShowLogin(true)}>
                 Login
               </Button>
             </div>
