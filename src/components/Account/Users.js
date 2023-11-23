@@ -5,7 +5,7 @@ import { apiCalls } from '../../Data/Api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Following = ({ isLoggedIn }) => {
+const Users = ({ isLoggedIn }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
   const [animationClass, setAnimationClass] = useState('');
@@ -130,4 +130,4 @@ const Following = ({ isLoggedIn }) => {
   );
 };
 
-export default Following;
+export default Users;

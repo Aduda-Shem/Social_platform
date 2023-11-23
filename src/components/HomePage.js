@@ -53,7 +53,7 @@ const HomePage = ({
               }}
               className={classnames('cursor-pointer', { 'text-blue-500': activeTab === 'following' })}
             >
-              Following
+              Users
             </NavLink>
           </NavItem>
           <NavItem>

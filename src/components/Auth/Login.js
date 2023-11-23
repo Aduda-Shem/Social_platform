@@ -1,31 +1,48 @@
-import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, Alert } from 'reactstrap';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Profile from './Profile';
-import { apiCalls } from '../../Data/Api';
+import React, { useState } from "react";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardBody,
+  CardTitle,
+  Alert,
+} from "reactstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Profile from "./Profile";
+import { apiCalls } from "../../Data/Api";
+import { isAuthenticated, login, logout, getAuthToken } from "./auth";
 
 const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
-  const [usernameOrEmail, setUsernameOrEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [error, setError] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(
+    isAuthenticated() ? getAuthToken() : null
+  );
 
   const handleLogin = async () => {
     try {
       const users = await apiCalls.fetchUsers();
 
       const foundUser = users.find(
-        (user) => (user.username === usernameOrEmail || user.email === usernameOrEmail) && user.address.zipcode === password
+        (user) =>
+          (user.username === usernameOrEmail ||
+            user.email === usernameOrEmail) &&
+          user.address.zipcode === password
       );
 
       if (foundUser) {
+        login(foundUser);
         setLoggedInUser(foundUser);
         onLogin();
-        setError('');
+        setError("");
         toggle();
       } else {
-        setError('Invalid credentials');
+        setError("Invalid credentials");
       }
     } catch (error) {
       setError(`Error fetching users: ${error.message}`);
@@ -33,6 +50,7 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
   };
 
   const handleLogout = () => {
+    logout();
     setLoggedInUser(null);
     onLogout();
   };
@@ -40,11 +58,17 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
   return (
     <>
       {isOpen && <div className="fixed inset-0 backdrop-blur-md"></div>}
-      <Card className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 ${isOpen ? 'block' : 'hidden'} bg-gray-300`}>
+      <Card
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 ${
+          isOpen ? "block" : "hidden"
+        } bg-gray-300`}
+      >
         <CardBody className="bg-gray-500 p-8 rounded-md shadow-lg text-white">
           {loggedInUser ? (
             <>
-              <CardTitle tag="h5" className="mb-3 text-xl font-semibold">Welcome, {loggedInUser.username}!</CardTitle>
+              <CardTitle tag="h5" className="mb-3 text-xl font-semibold">
+                Welcome, {loggedInUser.username}!
+              </CardTitle>
               <Profile user={loggedInUser} />
               <Button color="primary" className="mt-3" onClick={handleLogout}>
                 Logout
@@ -53,7 +77,9 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
           ) : (
             <Form>
               <FormGroup className="mb-4">
-                <Label for="usernameOrEmail" className="text-sm text-gray-300">Username or Email</Label>
+                <Label for="usernameOrEmail" className="text-sm text-gray-300">
+                  Username or Email
+                </Label>
                 <Input
                   type="text"
                   name="usernameOrEmail"
@@ -65,10 +91,12 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
                 />
               </FormGroup>
               <FormGroup className="mb-4">
-                <Label for="password" className="text-sm text-gray-300">Password</Label>
+                <Label for="password" className="text-sm text-gray-300">
+                  Password
+                </Label>
                 <div className="relative">
                   <Input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     id="password"
                     placeholder="Enter password"
@@ -80,11 +108,19 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
                     className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <FaEyeSlash className="text-gray-300" /> : <FaEye className="text-gray-300" />}
+                    {showPassword ? (
+                      <FaEyeSlash className="text-gray-300" />
+                    ) : (
+                      <FaEye className="text-gray-300" />
+                    )}
                   </span>
                 </div>
               </FormGroup>
-              {error && <Alert color="danger" className="mt-3">{error}</Alert>}
+              {error && (
+                <Alert color="danger" className="mt-3">
+                  {error}
+                </Alert>
+              )}
               <Button color="primary" className="mt-3" onClick={handleLogin}>
                 Login
               </Button>

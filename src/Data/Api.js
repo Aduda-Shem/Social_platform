@@ -45,4 +45,17 @@ export const apiCalls = {
       throw error;
     }
   },
+
+fetchUserById: async (userId) => {
+  try {
+    const response = await fetch(`${apiEndpoints.users}/${userId}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  } catch (error) {
+    console.error(`Error fetching user with ID ${userId}:`, error);
+    throw error;
+  }
+},
 };
