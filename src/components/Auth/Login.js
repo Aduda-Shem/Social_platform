@@ -55,15 +55,21 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
     onLogout();
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       {isOpen && <div className="fixed inset-0 backdrop-blur-md"></div>}
       <Card
         className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 ${
           isOpen ? "block" : "hidden"
-        } bg-gray-300`}
+        } bg-gradient-to-r from-purple-400 to-pink-500`}
       >
-        <CardBody className="bg-gray-500 p-8 rounded-md shadow-lg text-white">
+        <CardBody className="bg-white p-8 rounded-md shadow-lg text-gray-800">
           {loggedInUser ? (
             <>
               <CardTitle tag="h5" className="mb-3 text-xl font-semibold">
@@ -77,7 +83,7 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
           ) : (
             <Form>
               <FormGroup className="mb-4">
-                <Label for="usernameOrEmail" className="text-sm text-gray-300">
+                <Label for="usernameOrEmail" className="text-sm text-gray-600">
                   Username or Email
                 </Label>
                 <Input
@@ -87,11 +93,12 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
                   placeholder="Enter username or email"
                   value={usernameOrEmail}
                   onChange={(e) => setUsernameOrEmail(e.target.value)}
-                  className="border p-2 w-full bg-gray-400 text-black"
+                  className="border p-2 w-full bg-gray-100 text-gray-800"
+                  onKeyPress={handleKeyPress}
                 />
               </FormGroup>
               <FormGroup className="mb-4">
-                <Label for="password" className="text-sm text-gray-300">
+                <Label for="password" className="text-sm text-gray-600">
                   Password
                 </Label>
                 <div className="relative">
@@ -102,16 +109,17 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border p-2 w-full bg-gray-400 text-black"
+                    className="border p-2 w-full bg-gray-100 text-gray-800"
+                    onKeyPress={handleKeyPress}
                   />
                   <span
                     className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <FaEyeSlash className="text-gray-300" />
+                      <FaEyeSlash className="text-gray-600" />
                     ) : (
-                      <FaEye className="text-gray-300" />
+                      <FaEye className="text-gray-600" />
                     )}
                   </span>
                 </div>

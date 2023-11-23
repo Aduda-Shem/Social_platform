@@ -12,8 +12,9 @@ const Profile = () => {
         const userData = await apiCalls.fetchUserById(user.id);
         setUser(userData);
 
-        const pfpic = `https://robohash.org/${user.username}?size=200x200`;
-        setUser({ ...user, url: pfpic });
+        const profilePic = `https://robohash.org/${user.username}?size=200x200`;
+        setUser({ ...userData, url: profilePic });
+
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -21,8 +22,6 @@ const Profile = () => {
 
     if (user) {
       fetchUserData();
-    } else {
-      console.log("User data not available.");
     }
   }, [user]);
 
@@ -36,6 +35,7 @@ const Profile = () => {
               src={user.url}
               alt="Profile Pic"
               className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg"
+              style={{ filter: "grayscale(20%)", border: "2px solid #6B7280" }}
             />
           </div>
         )}
