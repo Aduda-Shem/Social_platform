@@ -70,17 +70,7 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
         } bg-gradient-to-r from-purple-400 to-pink-500`}
       >
         <CardBody className="bg-white p-8 rounded-md shadow-lg text-gray-800">
-          {loggedInUser ? (
-            <>
-              <CardTitle tag="h5" className="mb-3 text-xl font-semibold">
-                Welcome, {loggedInUser.username}!
-              </CardTitle>
-              <Profile user={loggedInUser} />
-              <Button color="primary" className="mt-3" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
-          ) : (
+ 
             <Form>
               <FormGroup className="mb-4">
                 <Label for="usernameOrEmail" className="text-sm text-gray-600">
@@ -136,7 +126,6 @@ const Login = ({ isOpen, toggle, onLogin, onLogout }) => {
                 Cancel
               </Button>
             </Form>
-          )}
         </CardBody>
       </Card>
     </>
