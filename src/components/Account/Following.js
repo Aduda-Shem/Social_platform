@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { apiCalls } from '../../Data/Api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getFollowedUsers, followUser, unfollowUser } from './UserTrack';
 
-const Following = ({ isLoggedIn }) => {
+const Users = ({ isLoggedIn }) => {
   const [allUsers, setAllUsers] = useState([]);
-  const [followingUsers, setFollowingUsers] = useState([]);
+  const [usersUsers, setUsersUsers] = useState(getFollowedUsers());
   const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
@@ -26,43 +26,39 @@ const Following = ({ isLoggedIn }) => {
   }, [isLoggedIn]);
 
   const handleFollow = (userId) => {
-    const userToFollow = allUsers.find(user => user.id === userId);
-    setFollowingUsers(prevFollowing => [...prevFollowing, userToFollow]);
+    const userToFollow = allUsers.find((user) => user.id === userId);
+    followUser(userId);
+    setUsersUsers((prevUsers) => [...prevUsers, userToFollow]);
     notify(`You started following ${userToFollow.name}`);
-    setAnimationClass('transition-transform transform translate-x-0');
+    setAnimationClass('transition-transform transform translate-y-0');
   };
 
   const handleUnfollow = (userId) => {
-    setFollowingUsers(prevFollowing => prevFollowing.filter(user => user.id !== userId));
-    const unfollowedUser = allUsers.find(user => user.id === userId);
+    unfollowUser(userId);
+    setUsersUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    const unfollowedUser = allUsers.find((user) => user.id === userId);
     notify(`You unfollowed ${unfollowedUser.name}`);
-    setAnimationClass('transition-transform transform translate-x-full');
+    setAnimationClass('transition-transform transform translate-y-full');
   };
 
   const notify = (message) => toast.info(message);
 
-  const filteredUsers = allUsers.filter(user => !followingUsers.some(followingUser => followingUser.id === user.id));
+  const filteredUsers = allUsers.filter((user) => !usersUsers.some((followedUser) => followedUser.id === user.id));
 
   return (
     <Container className="mx-auto p-8">
-      {!isLoggedIn && (
-        <div className="text-center">
-          <p className="text-xl font-semibold mb-4">Login to connect with other users</p>
-        </div>
-      )}
-
       {isLoggedIn && (
         <>
-          <h2 className="mb-4 text-3xl font-bold">Following Users</h2>
+          <h2 className="mb-4 text-3xl font-bold text-center">Following</h2>
           <Row className={`items-center ${animationClass}`}>
-            {followingUsers.map((user) => (
+            {usersUsers.map((user) => (
               <Col key={user.id} className="mb-4">
                 <div className="flex items-center">
                   <div className="rounded-full overflow-hidden">
                     <img
-                      src={user.thumbnailUrl}
+                      src={`https://robohash.org/${user.username}?size=200x200`}
                       className="w-20 h-20 object-cover cursor-pointer"
-                      onClick={() => console.log(`View profile for ${user.name}`)}
+                      alt={user.name}
                     />
                   </div>
                   <div className="ml-4">
@@ -73,7 +69,7 @@ const Following = ({ isLoggedIn }) => {
                 <div className="ml-auto flex items-center">
                   <Button
                     color="success"
-                    className="ml-2 transform translate-x-full transition-transform"
+                    className="ml-2 transform translate-y-full transition-transform"
                     onClick={() => handleUnfollow(user.id)}
                   >
                     Unfollow
@@ -83,15 +79,16 @@ const Following = ({ isLoggedIn }) => {
             ))}
           </Row>
           <hr className="my-8 border-t" />
-          <h2 className="mb-4 text-3xl font-bold">All Users</h2>
+          <h2 className="mb-4 text-3xl font-bold text-center">All Users</h2>
           <Row className={`items-center ${animationClass}`}>
             {filteredUsers.map((user) => (
               <Col key={user.id} className="mb-4">
                 <div className="flex items-center">
                   <div className="rounded-full overflow-hidden">
                     <img
-                      src={user.thumbnailUrl}
+                      src={`https://robohash.org/${user.username}?size=200x200`}
                       className="w-20 h-20 object-cover cursor-pointer"
+                      alt={user.name}
                       onClick={() => console.log(`View profile for ${user.name}`)}
                     />
                   </div>
@@ -101,10 +98,10 @@ const Following = ({ isLoggedIn }) => {
                   </div>
                 </div>
                 <div className="ml-auto flex items-center">
-                  {followingUsers.some(followingUser => followingUser.id === user.id) ? (
+                  {usersUsers.some((followedUser) => followedUser.id === user.id) ? (
                     <Button
                       color="success"
-                      className="ml-2 transform translate-x-full transition-transform"
+                      className="ml-2 transform translate-y-full transition-transform"
                       onClick={() => handleUnfollow(user.id)}
                     >
                       Unfollow
@@ -112,7 +109,7 @@ const Following = ({ isLoggedIn }) => {
                   ) : (
                     <Button
                       color="danger"
-                      className="ml-2 transform translate-x-full transition-transform"
+                      className="ml-2 transform translate-y-full transition-transform"
                       onClick={() => handleFollow(user.id)}
                     >
                       Follow
@@ -130,4 +127,4 @@ const Following = ({ isLoggedIn }) => {
   );
 };
 
-export default Following;
+export default Users;

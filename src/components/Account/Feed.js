@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Input, Button, Card } from 'reactstrap';
 import Post from './Post';
 import Comments from './Comments';
+import PremiumUpgrade from './PremiumUpgrade';
 import { apiCalls } from '../../Data/Api';
 
 const Feed = ({ isLoggedIn }) => {
@@ -41,9 +42,6 @@ const Feed = ({ isLoggedIn }) => {
     setPostsViewed(postsViewed + 1);
   };
 
-  const handleSearch = () => {
-    console.log(`Searching for posts containing: ${searchTerm}`);
-  };
 
   const renderPostButton = (post) => (
     (isLoggedIn || postsViewed < 20) && (
@@ -79,9 +77,7 @@ const Feed = ({ isLoggedIn }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
-        <Col md={6} className="text-right">
-          <Button color="success" onClick={handleSearch}>Search</Button>
-        </Col>
+      
       </Row>
 
       <Row>
@@ -90,8 +86,8 @@ const Feed = ({ isLoggedIn }) => {
             <p className="text-center text-2xl font-bold text-gray-700">Loading...</p>
           ) : (
             recommendedPost && (
-              <div className="mt-8 p-4 bg-yellow-200 border border-yellow-300 rounded-md">
-                <p className="text-lg font-semibold text-yellow-800">🌟 Recommended Post:</p>
+              <Card className="mt-8 p-4 bg-yellow-200 border border-yellow-300 rounded-md">
+                <h2 className="text-lg font-semibold text-yellow-800 mb-4">🌟 Recommended Post:</h2>
                 <Post data={recommendedPost} showComments={false} />
                 <Button
                   color="info"
@@ -100,7 +96,7 @@ const Feed = ({ isLoggedIn }) => {
                 >
                   View Recommendation
                 </Button>
-              </div>
+              </Card>
             )
           )}
         </Col>
@@ -121,15 +117,7 @@ const Feed = ({ isLoggedIn }) => {
       </Row>
 
       {showPaywall && (
-        <div className="p-4 bg-gray-100 border border-gray-300 rounded-md">
-          <p className="text-3xl font-semibold mb-2 text-blue-500">Upgrade to Premium</p>
-          <p className="text-gray-700">
-            Unlock unlimited access to posts by upgrading to our Premium membership.
-          </p>
-          <Button color="primary" className="mt-4" disabled>
-            Upgrade Now
-          </Button>
-        </div>
+        <PremiumUpgrade onUpgrade={() => setShowPaywall(false)} />
       )}
 
       {selectedPost && (

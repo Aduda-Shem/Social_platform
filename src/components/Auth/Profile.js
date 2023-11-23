@@ -11,6 +11,9 @@ const Profile = () => {
       try {
         const userData = await apiCalls.fetchUserById(user.id);
         setUser(userData);
+
+        const pfpic = `https://robohash.org/${user.username}?size=200x200`;
+        setUser({ ...user, url: pfpic });
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -27,11 +30,14 @@ const Profile = () => {
     <Container className="mx-auto my-8 p-4 bg-white shadow-lg rounded-md max-w-lg">
       <div className="text-center mb-4">
         {user && (
-          <img
-            src={user.url}
-            alt="Profile Pic"
-            className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-gray-200"
-          />
+          <div className="relative">
+            <div className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-80"></div>
+            <img
+              src={user.url}
+              alt="Profile Pic"
+              className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg"
+            />
+          </div>
         )}
         <h2 className="text-3xl font-semibold text-gray-800">{user.name}</h2>
         <p className="text-gray-600">@{user.username}</p>
@@ -55,10 +61,9 @@ const Profile = () => {
         </Row>
       )}
 
-      <div className="text-center">
+      <div className="text-center mt-6">
         <a
-          href="#"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md inline-block hover:bg-blue-600 transition duration-300"
+          className="bg-gradient-to-br from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full inline-block hover:from-blue-600 hover:to-purple-600 transition duration-300"
         >
           Edit Profile
         </a>

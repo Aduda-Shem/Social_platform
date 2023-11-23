@@ -11,7 +11,6 @@ const Footer = () => {
             <p className="text-sm text-gray-600">
               Created by{' '}
               <a
-                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { apiCalls } from '../../Data/Api';
 import { ToastContainer, toast } from 'react-toastify';
@@ -62,7 +61,7 @@ const Users = ({ isLoggedIn }) => {
                     <img
                       src={user.thumbnailUrl}
                       className="w-20 h-20 object-cover cursor-pointer"
-                      onClick={() => console.log(`View profile for ${user.name}`)}
+                      alt=''
                     />
                   </div>
                   <div className="ml-4">
@@ -92,7 +91,7 @@ const Users = ({ isLoggedIn }) => {
                     <img
                       src={user.thumbnailUrl}
                       className="w-20 h-20 object-cover cursor-pointer"
-                      onClick={() => console.log(`View profile for ${user.name}`)}
+                      alt=''
                     />
                   </div>
                   <div className="ml-4">

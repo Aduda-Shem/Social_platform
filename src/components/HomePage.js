@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Row, Col, Nav, NavItem, NavLink, Card, Button, TabContent, TabPane, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Row, Col, Nav, NavItem, NavLink, Card, Button, TabContent, TabPane } from 'reactstrap';
 import classnames from 'classnames';
 import Feed from './Account/Feed';
-import Following from './Account/Following';
+import Users from './Account/Users';
 import MyPosts from './Account/MyPosts';
 import Profile from './Auth/Profile';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Subscription from '../components/Account/subscription';
 
 const HomePage = ({
   isLoggedIn,
@@ -13,27 +15,19 @@ const HomePage = ({
   activeTab,
   setActiveTab,
   handleLogout,
-  handlePremiumUpgrade,
-  handleBlockUser,
   setShowLogin,
 }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
 
   return (
     <>
-      <Card className="bg-gradient-to-r from-blue-500 to-teal-600 p-8 mb-8 rounded-lg shadow-lg text-white">
-        <img src="/src/logo.jpg" alt="Logo" className="mb-4 animate__animated animate__fadeInDown" />
-        <h1 className="text-3xl font-bold mb-4 animate__animated animate__fadeInUp">
-          Welcome to <span className="text-yellow-400">ELewa Social Platform</span>
+      <Card className="bg-gray-900 text-white p-8 mb-8 rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-4">
+          Welcome to <span className="text-blue-500">GR4HNM Social Platform</span>
         </h1>
       </Card>
 
-      <Card className="p-4 bg-gray-100 mb-4 animate__animated animate__fadeIn rounded-lg shadow-md">
-        <Nav pills className="flex items-center justify-end space-x-4 animate__animated animate__fadeIn">
+      <Card className="p-4 bg-white mb-4 rounded-lg shadow-md">
+        <Nav pills className="flex items-center justify-center space-x-4">
           <NavItem>
             <NavLink
               onClick={() => {
@@ -48,10 +42,10 @@ const HomePage = ({
           <NavItem>
             <NavLink
               onClick={() => {
-                setActiveTab('following');
+                setActiveTab('Users');
                 setShowLogin(false);
               }}
-              className={classnames('cursor-pointer', { 'text-blue-500': activeTab === 'following' })}
+              className={classnames('cursor-pointer', { 'text-blue-500': activeTab === 'Users' })}
             >
               Users
             </NavLink>
@@ -81,25 +75,37 @@ const HomePage = ({
                 </NavLink>
               </NavItem>
               <NavItem>
+            <NavLink
+              onClick={() => {
+                setActiveTab('payment');
+                setShowLogin(false);
+              }}
+              className={classnames('cursor-pointer', { 'text-blue-500': activeTab === 'payment' })}
+            >
+              Payment
+            </NavLink>
+          </NavItem>
+              <NavItem>
                 <NavLink onClick={handleLogout} className="cursor-pointer text-red-500">
                   Logout
                 </NavLink>
               </NavItem>
             </>
           )}
+     
         </Nav>
       </Card>
 
-      <div className="scrollable-content" style={{ maxHeight: '1000px', height: 'fit-content', overflowY: 'auto' }}>
+      <div className="scrollable-content" style={{ maxHeight: '1000px', height: 'fit-content', overflowY: 'auto', overflowX: 'hidden' }}>
         <TabContent>
           <TabPane>
             {activeTab === 'feed' && (
-              <Feed isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} remainingFreePosts={remainingFreePosts} onBlockUser={handleBlockUser} />
+              <Feed isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} remainingFreePosts={remainingFreePosts} />
             )}
           </TabPane>
 
           <TabPane>
-            {activeTab === 'following' && <Following isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />}
+            {activeTab === 'Users' && <Users isLoggedIn={isLoggedIn} isPremiumUser={isPremiumUser} />}
           </TabPane>
 
           <TabPane>
@@ -109,23 +115,27 @@ const HomePage = ({
           <TabPane>
             {activeTab === 'profile' && <Profile />}
           </TabPane>
+
+          <TabPane>
+            {activeTab === 'payment' && <Subscription />}
+          </TabPane>
         </TabContent>
       </div>
 
       {!isLoggedIn && (
         <Row>
-          <Col md={12}>
-            <div className="text-center mt-3 animate__animated animate__fadeIn">
-              <Button
-                className="bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded-full transition duration-500 ease-in-out transform hover:scale-105"
-                onClick={() => setShowLogin(true)}
-              >
-                Already Have an account? <span className="text-black-500">Login</span>
-              </Button>
-            </div>
+          <Col md={12} className="text-center mt-3">
+            <Button
+              className="bg-blue-500 text-white px-4 py-2 rounded-full mb-4"
+              onClick={() => setShowLogin(true)}
+            >
+              Login
+            </Button>
           </Col>
         </Row>
       )}
+
+      <ToastContainer />
     </>
   );
 };

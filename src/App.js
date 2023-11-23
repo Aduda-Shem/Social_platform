@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Modal, ModalHeader, ModalBody, Button } from 'reactstrap';
-import classnames from 'classnames';
+import { Container, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Login from './components/Auth/Login';
 import './styles/main.css';
 import Footer from './components/Breadcrumbs/Footer';
