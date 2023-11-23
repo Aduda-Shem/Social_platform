@@ -10,8 +10,6 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const userData = await apiCalls.fetchUserById(user.id);
-        setUser(userData);
-
         const profilePic = `https://robohash.org/${user.username}?size=200x200`;
         setUser({ ...userData, url: profilePic });
 
