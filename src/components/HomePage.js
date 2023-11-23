@@ -58,7 +58,7 @@ const HomePage = ({
               }}
               className={classnames('cursor-pointer', { 'text-blue-500': activeTab === 'myPosts' })}
             >
-              My Posts
+              Posts
             </NavLink>
           </NavItem>
           {isLoggedIn && (
