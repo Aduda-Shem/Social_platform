@@ -34,7 +34,7 @@ Install:
 3. Install project dependencies:
 
       ```
-      cd social-platform
+      npm install
       ```
 
 4. Build the Styles:
