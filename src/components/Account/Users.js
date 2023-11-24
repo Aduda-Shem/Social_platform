@@ -56,7 +56,7 @@ const Users = ({ isLoggedIn }) => {
           <h2 className="mb-4 text-3xl font-bold">Following</h2>
           <Row className={`items-center ${animationClass}`}>
             {followingUsers.map((user) => (
-              <Col key={user.id} className="mb-4">
+              <Col key={user.id} className="mb-4 d-flex flex-column justify-content-between">
                 <div className="flex items-center">
                   <div className="rounded-full overflow-hidden">
                     <img
@@ -70,7 +70,7 @@ const Users = ({ isLoggedIn }) => {
                     <p className="text-gray-600">Email: {user.email}</p>
                   </div>
                 </div>
-                <div className="ml-auto flex items-center">
+                <div className="mt-auto">
                   <Button
                     color="success"
                     className="ml-2 transform translate-x-full transition-transform"
@@ -86,7 +86,7 @@ const Users = ({ isLoggedIn }) => {
           <h2 className="mb-4 text-3xl font-bold"> Recommended Users </h2>
           <Row className={`items-center ${animationClass}`}>
             {filteredUsers.map((user) => (
-              <Col key={user.id} className="mb-4">
+              <Col key={user.id} className="mb-4 d-flex flex-column justify-content-between">
                 <div className="flex items-center">
                   <div className="rounded-full overflow-hidden">
                     <img
@@ -100,7 +100,7 @@ const Users = ({ isLoggedIn }) => {
                     <p className="text-gray-600">Email: {user.email}</p>
                   </div>
                 </div>
-                <div className="ml-auto flex items-center">
+                <div className="mt-auto">
                   <Button
                     color="primary"
                     className="ml-2 transform translate-x-full transition-transform"

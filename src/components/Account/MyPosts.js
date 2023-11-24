@@ -26,8 +26,6 @@ const UserPosts = () => {
 
     if (currentUser) {
       fetchUserPosts();
-    } else {
-      console.log('User data not available.');
     }
   }, [currentUser]);
 
@@ -39,9 +37,7 @@ const UserPosts = () => {
   };
 
   const handleArchive = (postId) => {
-    console.log(`Archive post with ID: ${postId}`);
-
-    toast.info('Post archived!', { position: 'top-right' });
+    toast.warning('Still under maintenance. Please try again later.', { position: 'top-right' });
   };
 
   const handleSend = async () => {

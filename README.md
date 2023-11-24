@@ -1,14 +1,11 @@
 # Social Platform
 
-WSocial Platform - built with React and Json Place holder APIs.
+WSocial Platform - built with React, tailwind and Json Place holder APIs.
 
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
@@ -27,3 +24,34 @@ Install:
 
    ```bash
    git clone https://github.com/your-username/social-platform.git
+
+2. Navigate to project directory
+
+      ```
+      cd social-platform
+      ```
+
+3. Install project dependencies:
+
+      ```
+      cd social-platform
+      ```
+
+4. Build the Styles:
+
+      ```
+      npm run build:styles
+      ```
+5. Run:
+
+      ```
+      npm start
+      ```
+6. Sample Credentials:
+   ```
+       "username": "Bret",
+       "password": "92998-3874",
+
+       "username": "Antonette",
+       "password": "90566-7771",
+   ```

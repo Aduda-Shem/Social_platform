@@ -79,6 +79,7 @@ const Feed = ({ isLoggedIn }) => {
             placeholder="Search posts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border rounded"
           />
         </Col>
       </Row>
@@ -105,12 +106,13 @@ const Feed = ({ isLoggedIn }) => {
         </Col>
       </Row>
 
-      <Row className="space-y-4">
+      <Container>
+      <Row xs={1} md={2} lg={3} className="g-4">
         {posts
           .filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()))
           .slice(0, displayedPosts)
           .map((post) => (
-            <Col key={post.id} md={4}>
+            <Col key={post.id}>
               <Card className="p-3 border rounded-md">
                 <Media className="mt-3">
                   <Media left>
@@ -118,7 +120,7 @@ const Feed = ({ isLoggedIn }) => {
                       object
                       src={`https://robohash.org/${post.userId}?size=64x64`}
                       alt={`User ${post.userId}`}
-                      className="rounded-circle"
+                      className="rounded-circle img-fluid"
                     />
                   </Media>
                   <Media body className="ml-3">
@@ -132,6 +134,7 @@ const Feed = ({ isLoggedIn }) => {
             </Col>
           ))}
       </Row>
+    </Container>
 
       {displayedPosts < posts.length && (
         <div className="text-center mt-6">

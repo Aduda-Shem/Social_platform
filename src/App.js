@@ -38,7 +38,7 @@ const App = () => {
   }, [isLoggedIn, isPremiumUser, remainingFreePosts]);
 
   return (
-    <Container className="mx-auto max-w-6xl p-4 font-sans w-full h-full max-h-screen">
+    <Container className="mx-auto max-w-6xl p-4 font-sans w-full h-full max-h-screen bg-gray-100">
       <HomePage
         isLoggedIn={isLoggedIn}
         isPremiumUser={isPremiumUser}
@@ -52,7 +52,7 @@ const App = () => {
       />
 
       <Modal isOpen={showLogin} toggle={() => setShowLogin(!showLogin)} className="modal-dialog-centered modal-lg">
-        <ModalHeader toggle={() => setShowLogin(!showLogin)}>Login</ModalHeader>
+        <ModalHeader toggle={() => setShowLogin(!showLogin)} className="bg-blue-500 text-white">Login</ModalHeader>
         <ModalBody>
           <Login isOpen={showLogin} toggle={() => setShowLogin(!showLogin)} onLogin={handleLogin} />
         </ModalBody>
