@@ -20,7 +20,7 @@ const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newBody, setNewBody] = useState("");
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatOpen] = useState(true);
   const currentUser = getAuthToken();
 
   useEffect(() => {
@@ -35,11 +35,9 @@ const UserPosts = () => {
         console.error("Error fetching user posts:", error);
       }
     };
-  
+
     fetchUserPosts();
   }, [currentUser]);
-  
-  
 
   const handleDelete = (postId) => {
     const updatedPosts = posts.filter((post) => post.id !== postId);
@@ -48,7 +46,7 @@ const UserPosts = () => {
     toast.success("Post deleted successfully!", { position: "top-right" });
   };
 
-  const handleSend = (postId) => {
+  const handleSend = () => {
     toast.warning("System under maintenance. Please try again later.", {
       position: "top-right",
     });
@@ -73,12 +71,11 @@ const UserPosts = () => {
                 <CardBody>
                   <Button
                     color="primary"
-                    onClick={() => setIsChatOpen(!isChatOpen)}
                     className={`chat-toggle-btn ${
                       isChatOpen ? "close-chat-btn" : "open-chat-btn"
                     }`}
                   >
-                    {isChatOpen ? "Close Chat" : "Open Chat"}
+                    Open Chat
                   </Button>
                   {isChatOpen && (
                     <>
