@@ -1,73 +1,133 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "reactstrap";
-import { apiCalls } from "../../Data/Api";
-import { getAuthToken } from "../../components/Auth/auth";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Container, Row, Col, Button } from 'reactstrap';
+import { apiCalls } from '../../Data/Api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Profile = () => {
-  const [user, setUser] = useState(getAuthToken());
+const Users = ({ isLoggedIn }) => {
+  const [allUsers, setAllUsers] = useState([]);
+  const [followingUsers, setFollowingUsers] = useState([]);
+  const [animationClass, setAnimationClass] = useState('');
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       try {
-        const userData = await apiCalls.fetchUserById(user.id);
-        const profilePic = `https://robohash.org/${user.username}?size=200x200`;
-        setUser({ ...userData, url: profilePic });
-
+        const response = await apiCalls.fetchUsers();
+        setAllUsers(response);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching users:', error);
       }
     };
 
-    if (user) {
-      fetchUserData();
+    if (isLoggedIn) {
+      fetchData();
     }
-  }, [user]);
+  }, [isLoggedIn]);
+
+  const handleFollow = (userId) => {
+    const userToFollow = allUsers.find(user => user.id === userId);
+    setFollowingUsers(prevFollowing => [...prevFollowing, userToFollow]);
+    notify(`You started following ${userToFollow.name}`);
+    setAnimationClass('transition-transform transform translate-x-0');
+  };
+
+  const handleUnfollow = (userId) => {
+    setFollowingUsers(prevFollowing => prevFollowing.filter(user => user.id !== userId));
+    const unfollowedUser = allUsers.find(user => user.id === userId);
+    notify(`You unfollowed ${unfollowedUser.name}`);
+    setAnimationClass('transition-transform transform translate-x-full');
+  };
+
+  const notify = (message) => toast.info(message);
+
+  const filteredUsers = allUsers.filter(user => !followingUsers.some(followingUser => followingUser.id === user.id));
 
   return (
-    <Container className="mx-auto my-8 p-4 bg-white shadow-lg rounded-md max-w-lg">
-      <div className="text-center mb-4">
-        {user && (
-          <div className="relative">
-            <div className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-80"></div>
-            <img
-              src={user.url}
-              alt="Profile Pic"
-              className="w-32 h-32 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg"
-              style={{ filter: "grayscale(20%)", border: "2px solid #6B7280" }}
-            />
-          </div>
-        )}
-        <h2 className="text-3xl font-semibold text-gray-800">{user.name}</h2>
-        <p className="text-gray-600">@{user.username}</p>
-      </div>
-
-      {user && (
-        <Row className="mb-6">
-          <Col>
-            <p className="text-gray-700 mb-2">
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p className="text-gray-700 mb-2">
-              <strong>Address:</strong>{" "}
-              {`${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`}
-            </p>
-            <p className="text-gray-700 mb-2">
-              <strong>Geolocation:</strong>{" "}
-              {`Lat: ${user.address.geo.lat}, Lng: ${user.address.geo.lng}`}
-            </p>
-          </Col>
-        </Row>
+    <Container className="mx-auto p-8">
+      {!isLoggedIn && (
+        <div className="text-center">
+          <p className="text-xl font-semibold mb-4">Login to connect with other users</p>
+        </div>
       )}
 
-      <div className="text-center mt-6">
-        <a
-          className="bg-gradient-to-br from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full inline-block hover:from-blue-600 hover:to-purple-600 transition duration-300"
-        >
-          Edit Profile
-        </a>
-      </div>
+      {isLoggedIn && (
+        <>
+          <h2 className="mb-4 text-3xl font-bold">Following Users</h2>
+          <Row className={`items-center ${animationClass}`}>
+            {followingUsers.map((user) => (
+              <Col key={user.id} className="mb-4">
+                <div className="flex items-center">
+                  <div className="rounded-full overflow-hidden">
+                    <img
+                      src={user.thumbnailUrl}
+                      className="w-20 h-20 object-cover cursor-pointer"
+                      onClick={() => console.log(`View profile for ${user.name}`)}
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-lg font-semibold">{user.name}</h4>
+                    <p className="text-gray-600">Email: {user.email}</p>
+                  </div>
+                </div>
+                <div className="ml-auto flex items-center">
+                  <Button
+                    color="success"
+                    className="ml-2 transform translate-x-full transition-transform"
+                    onClick={() => handleUnfollow(user.id)}
+                  >
+                    Unfollow
+                  </Button>
+                </div>
+              </Col>
+            ))}
+          </Row>
+          <hr className="my-8 border-t" />
+          <h2 className="mb-4 text-3xl font-bold">All Users</h2>
+          <Row className={`items-center ${animationClass}`}>
+            {filteredUsers.map((user) => (
+              <Col key={user.id} className="mb-4">
+                <div className="flex items-center">
+                  <div className="rounded-full overflow-hidden">
+                    <img
+                      src={user.thumbnailUrl}
+                      className="w-20 h-20 object-cover cursor-pointer"
+                      onClick={() => console.log(`View profile for ${user.name}`)}
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-lg font-semibold">{user.name}</h4>
+                    <p className="text-gray-600">Email: {user.email}</p>
+                  </div>
+                </div>
+                <div className="ml-auto flex items-center">
+                  {followingUsers.some(followingUser => followingUser.id === user.id) ? (
+                    <Button
+                      color="success"
+                      className="ml-2 transform translate-x-full transition-transform"
+                      onClick={() => handleUnfollow(user.id)}
+                    >
+                      Unfollow
+                    </Button>
+                  ) : (
+                    <Button
+                      color="danger"
+                      className="ml-2 transform translate-x-full transition-transform"
+                      onClick={() => handleFollow(user.id)}
+                    >
+                      Follow
+                    </Button>
+                  )}
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
+
+      <ToastContainer />
     </Container>
   );
 };
 
-export default Profile;
+export default Users;

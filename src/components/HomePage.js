@@ -39,7 +39,7 @@ const HomePage = ({
           <Row>
             <Col md={12} className="text-center mt-3">
               <Button
-                className="bg-blue-500 text-white px-4 py-2 rounded-full mb-4"
+                className="bg-blue-500 text-white px-4 py-2 rounded-full mb-4 hover:shadow-lg"
                 onClick={() => setShowLogin(true)}
               >
                 Login
@@ -57,7 +57,7 @@ const HomePage = ({
                 setActiveTab("feed");
                 setShowLogin(false);
               }}
-              className={classnames("cursor-pointer", {
+              className={classnames("cursor-pointer text-lg font-bold", {
                 "text-blue-500": activeTab === "feed",
               })}
             >
@@ -70,7 +70,7 @@ const HomePage = ({
                 setActiveTab("Users");
                 setShowLogin(false);
               }}
-              className={classnames("cursor-pointer", {
+              className={classnames("cursor-pointer text-lg font-bold", {
                 "text-blue-500": activeTab === "Users",
               })}
             >
@@ -83,7 +83,7 @@ const HomePage = ({
                 setActiveTab("myPosts");
                 setShowLogin(false);
               }}
-              className={classnames("cursor-pointer", {
+              className={classnames("cursor-pointer text-lg font-bold", {
                 "text-blue-500": activeTab === "myPosts",
               })}
             >
@@ -98,7 +98,7 @@ const HomePage = ({
                     setActiveTab("profile");
                     setShowLogin(false);
                   }}
-                  className={classnames("cursor-pointer", {
+                  className={classnames("cursor-pointer text-lg font-bold", {
                     "text-blue-500": activeTab === "profile",
                   })}
                 >
@@ -111,7 +111,7 @@ const HomePage = ({
                     setActiveTab("payment");
                     setShowLogin(false);
                   }}
-                  className={classnames("cursor-pointer", {
+                  className={classnames("cursor-pointer text-lg font-bold", {
                     "text-blue-500": activeTab === "payment",
                   })}
                 >
@@ -121,9 +121,9 @@ const HomePage = ({
               <NavItem>
                 <Button
                   onClick={() => (isLoggedIn ? handleLogout() : setShowLogin(true))}
-                  className={classnames("cursor-pointer", {
-                    "text-red-500": isLoggedIn,
-                    "text-blue-500": !isLoggedIn,
+                  className={classnames("cursor-pointer text-lg font-bold", {
+                    "bg-red-500 text-white": isLoggedIn,
+                    "bg-blue-500 text-white": !isLoggedIn,
                   })}
                 >
                   {isLoggedIn ? "Logout" : "Login"}
@@ -133,14 +133,10 @@ const HomePage = ({
           )}
         </Nav>
 
+
         <div
-          className="scrollable-content"
-          style={{
-            maxHeight: "1000px",
-            height: "fit-content",
-            overflowY: "auto",
-            overflowX: "hidden",
-          }}
+          className="scrollable-content overflow-y-auto overflow-x-hidden"
+          style={{ maxHeight: "1000px", height: "fit-content" }}
         >
           <TabContent>
             <TabPane>

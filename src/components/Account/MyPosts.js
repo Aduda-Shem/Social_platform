@@ -4,13 +4,14 @@ import { apiCalls } from '../../Data/Api';
 import { getAuthToken } from '../../components/Auth/auth';
 import { FaTrash, FaArchive } from 'react-icons/fa';
 import Comments from './Comments';
-import { toast, ToastContainer } from 'react-toastify'; 
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newBody, setNewBody] = useState('');
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const currentUser = getAuthToken();
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const UserPosts = () => {
 
   const handleSend = async () => {
     if (!newTitle.trim() || !newBody.trim()) {
-      toast.error('Please enter both title and body for the new post!', { position: 'top-right' });
+      toast.error('Please enter MESSG for the new post!', { position: 'top-right' });
       return;
     }
 
@@ -74,7 +75,11 @@ const UserPosts = () => {
       <h2 className="mb-4">User Posts</h2>
       <Row className="mb-6">
         <Col>
-          <Card className="mb-4 fixed bottom-4 right-4 w-96 bg-white border-none rounded-lg shadow-lg">
+          <Card
+            className={`mb-4 fixed bottom-4 right-4 w-96 bg-white border-none rounded-lg shadow-lg ${
+              isChatOpen ? 'chat-open' : ''
+            }`}
+          >
             <CardBody>
               <Input
                 type="text"
@@ -95,10 +100,17 @@ const UserPosts = () => {
                 onClick={handleSend}
                 className="bg-blue-500 text-white hover:bg-blue-600 transition duration-300 px-6 py-2 rounded-full"
               >
-                Send 
+                Send
               </Button>
             </CardBody>
           </Card>
+          <Button
+            color="primary"
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="chat-toggle-btn"
+          >
+            {isChatOpen ? 'Close Chat' : 'Open Chat'}
+          </Button>
         </Col>
       </Row>
 

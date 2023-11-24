@@ -31,6 +31,8 @@ const Users = ({ isLoggedIn }) => {
     setFollowingUsers(followedUsersData);
   }, [allUsers]);
 
+  const getRandomNumber = () => Math.floor(Math.random() * 1000);
+
   const handleFollow = (userId) => {
     const userToFollow = allUsers.find(user => user.id === userId);
     setFollowingUsers(prevFollowing => [...prevFollowing, userToFollow]);
@@ -52,7 +54,7 @@ const Users = ({ isLoggedIn }) => {
   const filteredUsers = allUsers.filter(user => !followingUsers.some(followingUser => followingUser.id === user.id));
 
   return (
-    <Container className="mx-auto p-8">
+    <Container className="mx-auto p-8 bg-gray-100 min-h-screen">
       {!isLoggedIn && (
         <div className="text-center">
           <p className="text-xl font-semibold mb-4">Login to connect with other users</p>
@@ -60,15 +62,15 @@ const Users = ({ isLoggedIn }) => {
       )}
 
       {isLoggedIn && (
-        <>
+        <div>
           <h2 className="mb-4 text-3xl font-bold">Following Users</h2>
           <Row className={`items-center ${animationClass}`}>
             {followingUsers.map((user) => (
               <Col key={user.id} className="mb-4">
-                <div className="flex items-center">
+                <div className="flex items-center bg-white p-4 rounded-md shadow-md">
                   <div className="rounded-full overflow-hidden">
                     <img
-                      src={user.thumbnailUrl}
+                      src={`https://www.ronohash.com/${getRandomNumber()}.jpg`}
                       className="w-20 h-20 object-cover cursor-pointer"
                       alt=''
                     />
@@ -78,7 +80,7 @@ const Users = ({ isLoggedIn }) => {
                     <p className="text-gray-600">Email: {user.email}</p>
                   </div>
                 </div>
-                <div className="ml-auto flex items-center">
+                <div className="mt-2 flex items-center">
                   <Button
                     color="success"
                     className="ml-2 transform translate-x-full transition-transform"
@@ -95,10 +97,10 @@ const Users = ({ isLoggedIn }) => {
           <Row className={`items-center ${animationClass}`}>
             {filteredUsers.map((user) => (
               <Col key={user.id} className="mb-4">
-                <div className="flex items-center">
+                <div className="flex items-center bg-white p-4 rounded-md shadow-md">
                   <div className="rounded-full overflow-hidden">
                     <img
-                      src={user.thumbnailUrl}
+                      src={`https://www.ronohash.com/${getRandomNumber()}.jpg`}
                       className="w-20 h-20 object-cover cursor-pointer"
                       alt=''
                     />
@@ -108,7 +110,7 @@ const Users = ({ isLoggedIn }) => {
                     <p className="text-gray-600">Email: {user.email}</p>
                   </div>
                 </div>
-                <div className="ml-auto flex items-center">
+                <div className="mt-2 flex items-center">
                   {followingUsers.some(followingUser => followingUser.id === user.id) ? (
                     <Button
                       color="success"
@@ -130,7 +132,7 @@ const Users = ({ isLoggedIn }) => {
               </Col>
             ))}
           </Row>
-        </>
+        </div>
       )}
 
       <ToastContainer />
