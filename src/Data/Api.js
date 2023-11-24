@@ -46,16 +46,29 @@ export const apiCalls = {
     }
   },
 
-fetchUserById: async (userId) => {
-  try {
-    const response = await fetch(`${apiEndpoints.users}/${userId}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  fetchUserById: async (userId) => {
+    try {
+      const response = await fetch(`${apiEndpoints.users}/${userId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(`Error fetching user with ID ${userId}:`, error);
+      throw error;
     }
-    return response.json();
-  } catch (error) {
-    console.error(`Error fetching user with ID ${userId}:`, error);
-    throw error;
-  }
-},
+  },
+
+  fetchPostById: async (postId) => {
+    try {
+      const response = await fetch(`${apiEndpoints.posts}/${postId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    } catch (error) {
+      console.error(`Error fetching post with ID ${postId}:`, error);
+      throw error;
+    }
+  },
 };
