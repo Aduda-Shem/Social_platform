@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Alert } from 'reactstrap';
 import { apiCalls } from '../../Data/Api';
 import { getFollowedUsers, getBlockedUsers } from './UserTrack';
-import Post from './Post'; 
 
 const Following = () => {
   const [followingPosts, setFollowingPosts] = useState([]);
@@ -35,7 +34,10 @@ const Following = () => {
         followingPosts.map((post) => (
           <Row key={post.id} className="mb-4">
             <Col>
-              <Post post={post} />
+              <div>
+                <h3>{post.title}</h3>
+                <p>{post.body}</p>
+              </div>
             </Col>
           </Row>
         ))
