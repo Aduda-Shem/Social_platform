@@ -75,7 +75,7 @@ const UserPosts = () => {
                       isChatOpen ? "close-chat-btn" : "open-chat-btn"
                     }`}
                   >
-                    Open Chat
+                    Chat
                   </Button>
                   {isChatOpen && (
                     <>
