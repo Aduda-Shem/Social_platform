@@ -65,40 +65,45 @@ const HomePage = ({
         <CardHeader className="bg-gray-200">
           <Nav pills className="flex items-center justify-center space-x-4">
             {tabs.map(tab => (
-              <NavItem key={tab.id}>
-                <NavLink
-                  onClick={() => {
-                    setActiveTab(tab.id);
-                    setShowLogin(false);
-                  }}
+              (!isLoggedIn && tab.id === "feed") || (isLoggedIn && (
+                <NavItem key={tab.id}>
+                  <NavLink
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setShowLogin(false);
+                    }}
+                    className={classnames("cursor-pointer text-lg font-bold", {
+                      "text-blue-500": activeTab === tab.id,
+                    })}
+                  >
+                    {tab.label}
+                  </NavLink>
+                </NavItem>
+              ))
+            ))}
+            {isLoggedIn && (
+              <NavItem className="ml-auto">
+                <Button
+                  onClick={() => handleLogout()}
                   className={classnames("cursor-pointer text-lg font-bold", {
-                    "text-blue-500": activeTab === tab.id,
+                    "bg-red-500 text-white": isLoggedIn,
                   })}
                 >
-                  {tab.label}
-                </NavLink>
+                  Logout
+                </Button>
               </NavItem>
-            ))}
-            <NavItem className="ml-auto">
-              <Button
-                onClick={() => (isLoggedIn ? handleLogout() : setShowLogin(true))}
-                className={classnames("cursor-pointer text-lg font-bold", {
-                  "bg-red-500 text-white": isLoggedIn,
-                  "bg-blue-500 text-white": !isLoggedIn,
-                })}
-              >
-                {isLoggedIn ? "Logout" : "Login"}
-              </Button>
-            </NavItem>
+            )}
           </Nav>
         </CardHeader>
 
         <CardBody className="scrollable-content overflow-y-auto overflow-x-hidden" style={{ maxHeight: "1000px", height: "fit-content" }}>
-          <TabContent>
+          <TabContent activeTab={activeTab}>
             {tabs.map(tab => (
-              <TabPane key={tab.id}>
-                {activeTab === tab.id && tab.component}
-              </TabPane>
+              (isLoggedIn || tab.id === "feed") && (
+                <TabPane key={tab.id} tabId={tab.id}>
+                  {activeTab === tab.id && tab.component}
+                </TabPane>
+              )
             ))}
           </TabContent>
         </CardBody>
