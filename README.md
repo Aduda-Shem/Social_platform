@@ -23,7 +23,7 @@ Install:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/social-platform.git
+   git clone https://github.com/Aduda-Shem/Social_platform.git
 
 2. Navigate to project directory
 
