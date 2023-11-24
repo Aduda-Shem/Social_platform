@@ -10,6 +10,7 @@ const Subscription = () => {
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
+    setPaymentDetails('');
   };
 
   const handlePaymentDetailsChange = (event) => {
@@ -18,11 +19,17 @@ const Subscription = () => {
 
   const handlePaymentSubmit = () => {
     if (paymentDetails) {
-      toast.success(`Payment successful via ${paymentMethod}`);
-      setIsPaymentSuccessful(true);
+      simulatePayment();
     } else {
       toast.error('Please enter valid payment details.');
     }
+  };
+
+  const simulatePayment = () => {
+    setTimeout(() => {
+      toast.success(`Payment successful via ${paymentMethod}`);
+      setIsPaymentSuccessful(true);
+    }, 2000); 
   };
 
   return (
@@ -40,6 +47,15 @@ const Subscription = () => {
           />
           <FaPaypal className="text-3xl" /> PayPal
         </label>
+        {paymentMethod === 'paypal' && (
+          <input
+            type="text"
+            placeholder="Enter PayPal Email or Phone Number"
+            value={paymentDetails}
+            onChange={handlePaymentDetailsChange}
+            className="p-2 border rounded mb-2"
+          />
+        )}
       </div>
 
       <div className="mb-4">
@@ -53,18 +69,20 @@ const Subscription = () => {
           />
           <FaMobile className="text-3xl" /> M-Pesa
         </label>
+        {paymentMethod === 'mpesa' && (
+          <input
+            type="tel"
+            placeholder="Enter M-Pesa Phone Number"
+            value={paymentDetails}
+            onChange={handlePaymentDetailsChange}
+            className="p-2 border rounded mb-2"
+          />
+        )}
       </div>
 
       {paymentMethod && !isPaymentSuccessful && (
         <div>
           <h3 className="text-xl font-bold mb-2">Enter Payment Details</h3>
-          <input
-            type="text"
-            placeholder={`Enter ${paymentMethod === 'mpesa' ? 'M-Pesa number' : 'PayPal details'}`}
-            value={paymentDetails}
-            onChange={handlePaymentDetailsChange}
-            className="p-2 border rounded mb-2"
-          />
           <button
             onClick={handlePaymentSubmit}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
