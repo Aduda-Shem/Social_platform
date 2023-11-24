@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
-import { apiCalls } from '../../Data/Api';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { getFollowedUsers, followUser, unfollowUser } from './UserTrack';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button } from "reactstrap";
+import { apiCalls } from "../../Data/Api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getFollowedUsers, followUser, unfollowUser } from "./UserTrack";
 
 const Users = ({ isLoggedIn }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
-  const [animationClass, setAnimationClass] = useState('');
+  const [animationClass, setAnimationClass] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +16,7 @@ const Users = ({ isLoggedIn }) => {
         const response = await apiCalls.fetchUsers();
         setAllUsers(response);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -27,37 +27,46 @@ const Users = ({ isLoggedIn }) => {
 
   useEffect(() => {
     const storedFollowedUsers = getFollowedUsers();
-    const followedUsersData = allUsers.filter(user => storedFollowedUsers.includes(user.id));
+    const followedUsersData = allUsers.filter((user) =>
+      storedFollowedUsers.includes(user.id)
+    );
     setFollowingUsers(followedUsersData);
   }, [allUsers]);
 
   const getRandomNumber = () => Math.floor(Math.random() * 1000);
 
   const handleFollow = (userId) => {
-    const userToFollow = allUsers.find(user => user.id === userId);
-    setFollowingUsers(prevFollowing => [...prevFollowing, userToFollow]);
+    const userToFollow = allUsers.find((user) => user.id === userId);
+    setFollowingUsers((prevFollowing) => [...prevFollowing, userToFollow]);
     notify(`You started following ${userToFollow.name}`);
-    setAnimationClass('transition-transform transform translate-x-0');
+    setAnimationClass("transition-transform transform translate-x-0");
     followUser(userId);
   };
 
   const handleUnfollow = (userId) => {
-    setFollowingUsers(prevFollowing => prevFollowing.filter(user => user.id !== userId));
-    const unfollowedUser = allUsers.find(user => user.id === userId);
+    setFollowingUsers((prevFollowing) =>
+      prevFollowing.filter((user) => user.id !== userId)
+    );
+    const unfollowedUser = allUsers.find((user) => user.id === userId);
     notify(`You unfollowed ${unfollowedUser.name}`);
-    setAnimationClass('transition-transform transform translate-x-full');
+    setAnimationClass("transition-transform transform translate-x-full");
     unfollowUser(userId);
   };
 
   const notify = (message) => toast.info(message);
 
-  const filteredUsers = allUsers.filter(user => !followingUsers.some(followingUser => followingUser.id === user.id));
+  const filteredUsers = allUsers.filter(
+    (user) =>
+      !followingUsers.some((followingUser) => followingUser.id === user.id)
+  );
 
   return (
     <Container className="mx-auto p-8 bg-gray-100 min-h-screen">
       {!isLoggedIn && (
         <div className="text-center">
-          <p className="text-xl font-semibold mb-4">Login to connect with other users</p>
+          <p className="text-xl font-semibold mb-4">
+            Login to connect with other users
+          </p>
         </div>
       )}
 
@@ -72,7 +81,7 @@ const Users = ({ isLoggedIn }) => {
                     <img
                       src={`https://www.ronohash.com/${getRandomNumber()}.jpg`}
                       className="w-20 h-20 object-cover cursor-pointer"
-                      alt=''
+                      alt=""
                     />
                   </div>
                   <div className="ml-4">
@@ -102,7 +111,7 @@ const Users = ({ isLoggedIn }) => {
                     <img
                       src={`https://www.ronohash.com/${getRandomNumber()}.jpg`}
                       className="w-20 h-20 object-cover cursor-pointer"
-                      alt=''
+                      alt=""
                     />
                   </div>
                   <div className="ml-4">
@@ -111,7 +120,9 @@ const Users = ({ isLoggedIn }) => {
                   </div>
                 </div>
                 <div className="mt-2 flex items-center">
-                  {followingUsers.some(followingUser => followingUser.id === user.id) ? (
+                  {followingUsers.some(
+                    (followingUser) => followingUser.id === user.id
+                  ) ? (
                     <Button
                       color="success"
                       className="ml-2 transform translate-x-full transition-transform"

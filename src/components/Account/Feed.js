@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Input, Button, Card, Media } from 'reactstrap';
-import Post from './Post';
-import Comments from './Comments';
-import PremiumUpgrade from './PremiumUpgrade';
-import { apiCalls } from '../../Data/Api';
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Input, Button, Card, Media } from "reactstrap";
+import Post from "./Post";
+import Comments from "./Comments";
+import PremiumUpgrade from "./PremiumUpgrade";
+import { apiCalls } from "../../Data/Api";
 
 const Feed = ({ isLoggedIn }) => {
   const [posts, setPosts] = useState([]);
@@ -11,15 +11,17 @@ const Feed = ({ isLoggedIn }) => {
   const [postsViewed, setPostsViewed] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [recommendedPost, setRecommendedPost] = useState(null);
   const [displayedPosts, setDisplayedPosts] = useState(20);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedPostsViewed = localStorage.getItem('postsViewed');
-        const initialPostsViewed = storedPostsViewed ? parseInt(storedPostsViewed, 10) : 0;
+        const storedPostsViewed = localStorage.getItem("postsViewed");
+        const initialPostsViewed = storedPostsViewed
+          ? parseInt(storedPostsViewed, 10)
+          : 0;
         setPostsViewed(initialPostsViewed);
 
         const data = await apiCalls.fetchPosts();
@@ -30,7 +32,7 @@ const Feed = ({ isLoggedIn }) => {
           setRecommendedPost(data[0]);
         }
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error("Error fetching posts:", error);
         setLoading(false);
       }
     };
@@ -43,7 +45,7 @@ const Feed = ({ isLoggedIn }) => {
     setPostsViewed(postsViewed + 1);
   };
 
-  const renderPostButton = (post) => (
+  const renderPostButton = (post) =>
     (isLoggedIn || postsViewed < 20) && (
       <Button
         onClick={() => handlePostView(post)}
@@ -52,11 +54,10 @@ const Feed = ({ isLoggedIn }) => {
       >
         View Post
       </Button>
-    )
-  );
+    );
 
   useEffect(() => {
-    localStorage.setItem('postsViewed', postsViewed.toString());
+    localStorage.setItem("postsViewed", postsViewed.toString());
     if (!isLoggedIn && postsViewed >= 20) {
       setShowPaywall(true);
     }
@@ -87,11 +88,15 @@ const Feed = ({ isLoggedIn }) => {
       <Row>
         <Col md={12}>
           {loading ? (
-            <p className="text-center text-2xl font-bold text-gray-700">Loading...</p>
+            <p className="text-center text-2xl font-bold text-gray-700">
+              Loading...
+            </p>
           ) : (
             recommendedPost && (
               <Card className="mt-8 p-4 bg-yellow-200 border border-yellow-300 rounded-md">
-                <h2 className="text-lg font-semibold text-yellow-800 mb-4">🌟 Recommended Post:</h2>
+                <h2 className="text-lg font-semibold text-yellow-800 mb-4">
+                  🌟 Recommended Post:
+                </h2>
                 <Post data={recommendedPost} showComments={false} />
                 <Button
                   color="info"
@@ -107,34 +112,36 @@ const Feed = ({ isLoggedIn }) => {
       </Row>
 
       <Container>
-      <Row xs={1} md={2} lg={3} className="g-4">
-        {posts
-          .filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()))
-          .slice(0, displayedPosts)
-          .map((post) => (
-            <Col key={post.id}>
-              <Card className="p-3 border rounded-md">
-                <Media className="mt-3">
-                  <Media left>
-                    <Media
-                      object
-                      src={`https://robohash.org/${post.userId}?size=64x64`}
-                      alt={`User ${post.userId}`}
-                      className="rounded-circle img-fluid"
-                    />
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {posts
+            .filter((post) =>
+              post.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .slice(0, displayedPosts)
+            .map((post) => (
+              <Col key={post.id}>
+                <Card className="p-3 border rounded-md">
+                  <Media className="mt-3">
+                    <Media left>
+                      <Media
+                        object
+                        src={`https://robohash.org/${post.userId}?size=64x64`}
+                        alt={`User ${post.userId}`}
+                        className="rounded-circle img-fluid"
+                      />
+                    </Media>
+                    <Media body className="ml-3">
+                      <Media heading>{post.title}</Media>
+                      <p>{post.body}</p>
+                    </Media>
                   </Media>
-                  <Media body className="ml-3">
-                    <Media heading>{post.title}</Media>
-                    <p>{post.body}</p>
-                  </Media>
-                </Media>
-                <Comments postId={post.id} />
-                {renderPostButton(post)}
-              </Card>
-            </Col>
-          ))}
-      </Row>
-    </Container>
+                  <Comments postId={post.id} />
+                  {renderPostButton(post)}
+                </Card>
+              </Col>
+            ))}
+        </Row>
+      </Container>
 
       {displayedPosts < posts.length && (
         <div className="text-center mt-6">
@@ -163,11 +170,7 @@ const Feed = ({ isLoggedIn }) => {
             </button>
             <Post data={selectedPost} showComments={true} />
             <Comments postId={selectedPost.id} />
-            <Button
-              color="danger"
-              className="mt-4"
-              onClick={closeModal}
-            >
+            <Button color="danger" className="mt-4" onClick={closeModal}>
               Cancel
             </Button>
           </div>
