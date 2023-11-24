@@ -25,10 +25,24 @@ const Users = ({ isLoggedIn }) => {
       }
     };
 
+    const loadUserData = () => {
+      const savedFollowingUsers = JSON.parse(localStorage.getItem('followingUsers')) || [];
+      const savedBlockedUsers = JSON.parse(localStorage.getItem('blockedUsers')) || [];
+      
+      setFollowingUsers(savedFollowingUsers);
+      setBlockedUsers(savedBlockedUsers);
+    };
+
     if (isLoggedIn) {
       fetchData();
+      loadUserData();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    localStorage.setItem('followingUsers', JSON.stringify(followingUsers));
+    localStorage.setItem('blockedUsers', JSON.stringify(blockedUsers));
+  }, [followingUsers, blockedUsers]);
 
   const handleFollow = (userId) => {
     const userToFollow = allUsers.find((user) => user.id === userId);
@@ -86,7 +100,7 @@ const Users = ({ isLoggedIn }) => {
 
       {isLoggedIn && (
         <>
-          <h2 className="mb-4 text-3xl font-bold">Following</h2>
+          <h2 className="mb-4 text-3xl font-bold">Following ({followingUsers.length})</h2>
           <Row className={`items-center ${animationClass}`}>
             {followingUsers.map((user) => (
               <Col
@@ -131,7 +145,7 @@ const Users = ({ isLoggedIn }) => {
           {blockedUsers.length > 0 && (
             <>
               <hr className="my-8 border-t" />
-              <h2 className="mb-4 text-3xl font-bold">Blocked Users</h2>
+              <h2 className="mb-4 text-3xl font-bold">Blocked Users ({blockedUsers.length})</h2>
               <Row className={`items-center ${animationClass}`}>
                 {blockedUsers.map((user) => (
                   <Col
@@ -167,7 +181,7 @@ const Users = ({ isLoggedIn }) => {
           )}
 
           <hr className="my-8 border-t" />
-          <h2 className="mb-4 text-3xl font-bold"> Recommended Users </h2>
+          <h2 className="mb-4 text-3xl font-bold"> Recommended Users ({filteredUsers.length}) </h2>
           <Row className={`items-center ${animationClass}`}>
             {filteredUsers.map((user) => (
               <Col

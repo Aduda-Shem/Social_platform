@@ -27,16 +27,19 @@ const UserPosts = () => {
     const fetchUserPosts = async () => {
       try {
         if (currentUser) {
-          const userPostsResponse = await apiCalls.fetchPostById(currentUser.id);
-          setPosts(userPostsResponse);
+          const userPostsResponse = await apiCalls.fetchPosts();
+          const userPosts = userPostsResponse.filter(post => post.userId === currentUser.id);
+          setPosts(userPosts);
         }
       } catch (error) {
         console.error("Error fetching user posts:", error);
       }
     };
-
+  
     fetchUserPosts();
   }, [currentUser]);
+  
+  
 
   const handleDelete = (postId) => {
     const updatedPosts = posts.filter((post) => post.id !== postId);
