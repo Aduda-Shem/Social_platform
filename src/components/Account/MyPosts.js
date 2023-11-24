@@ -131,7 +131,7 @@ const UserPosts = () => {
           ))}
         </>
       ) : (
-        <Alert color="info">No posts found for the user.</Alert>
+        <Alert color="info">Loading...........</Alert>
       )}
 
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
