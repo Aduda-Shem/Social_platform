@@ -27,7 +27,7 @@ const UserPosts = () => {
     const fetchUserPosts = async () => {
       try {
         if (currentUser) {
-          const userPostsResponse = await apiCalls.fetchPosts(currentUser.id);
+          const userPostsResponse = await apiCalls.fetchPostById(currentUser.id);
           setPosts(userPostsResponse);
         }
       } catch (error) {
