@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Input, Button, Card } from 'reactstrap';
+import { Container, Row, Col, Input, Button, Card, Media } from 'reactstrap';
 import Post from './Post';
 import Comments from './Comments';
 import PremiumUpgrade from './PremiumUpgrade';
@@ -13,6 +13,7 @@ const Feed = ({ isLoggedIn }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [recommendedPost, setRecommendedPost] = useState(null);
+  const [displayedPosts, setDisplayedPosts] = useState(20);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +43,6 @@ const Feed = ({ isLoggedIn }) => {
     setPostsViewed(postsViewed + 1);
   };
 
-
   const renderPostButton = (post) => (
     (isLoggedIn || postsViewed < 20) && (
       <Button
@@ -66,6 +66,10 @@ const Feed = ({ isLoggedIn }) => {
     setSelectedPost(null);
   };
 
+  const loadMorePosts = () => {
+    setDisplayedPosts(displayedPosts + 20);
+  };
+
   return (
     <Container className="py-8">
       <Row className="mb-4">
@@ -77,7 +81,6 @@ const Feed = ({ isLoggedIn }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
-      
       </Row>
 
       <Row>
@@ -105,16 +108,42 @@ const Feed = ({ isLoggedIn }) => {
       <Row className="space-y-4">
         {posts
           .filter((post) => post.title.toLowerCase().includes(searchTerm.toLowerCase()))
-          .slice(0, showPaywall ? 20 : undefined)
+          .slice(0, displayedPosts)
           .map((post) => (
             <Col key={post.id} md={4}>
-              <Post key={post.id} data={post} showComments={true}>
+              <Card className="p-3 border rounded-md">
+                <Media className="mt-3">
+                  <Media left>
+                    <Media
+                      object
+                      src={`https://robohash.org/${post.userId}?size=64x64`}
+                      alt={`User ${post.userId}`}
+                      className="rounded-circle"
+                    />
+                  </Media>
+                  <Media body className="ml-3">
+                    <Media heading>{post.title}</Media>
+                    <p>{post.body}</p>
+                  </Media>
+                </Media>
                 <Comments postId={post.id} />
                 {renderPostButton(post)}
-              </Post>
+              </Card>
             </Col>
           ))}
       </Row>
+
+      {displayedPosts < posts.length && (
+        <div className="text-center mt-6">
+          <Button
+            color="primary"
+            onClick={loadMorePosts}
+            className="bg-blue-500 text-white hover:bg-blue-600 transition duration-300 px-6 py-3 rounded-full"
+          >
+            Load More
+          </Button>
+        </div>
+      )}
 
       {showPaywall && (
         <PremiumUpgrade onUpgrade={() => setShowPaywall(false)} />
@@ -131,9 +160,13 @@ const Feed = ({ isLoggedIn }) => {
             </button>
             <Post data={selectedPost} showComments={true} />
             <Comments postId={selectedPost.id} />
-            <button className="bg-red-500 text-white px-6 py-3 rounded-full mt-4" onClick={closeModal}>
+            <Button
+              color="danger"
+              className="mt-4"
+              onClick={closeModal}
+            >
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
       )}

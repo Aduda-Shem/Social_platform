@@ -13,7 +13,7 @@ const Users = ({ isLoggedIn }) => {
     const fetchData = async () => {
       try {
         const response = await apiCalls.fetchUsers();
-        setAllUsers(response);
+        setAllUsers(response.map(user => ({ ...user, thumbnailUrl: `https://robohash.org/${user.id}?size=200x200` })));
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -27,15 +27,16 @@ const Users = ({ isLoggedIn }) => {
   const handleFollow = (userId) => {
     const userToFollow = allUsers.find(user => user.id === userId);
     setFollowingUsers(prevFollowing => [...prevFollowing, userToFollow]);
+    setAllUsers(prevAllUsers => prevAllUsers.filter(user => user.id !== userId));
     notify(`You started following ${userToFollow.name}`);
     setAnimationClass('transition-transform transform translate-x-0');
   };
 
   const handleUnfollow = (userId) => {
+    const unfollowedUser = followingUsers.find(user => user.id === userId);
     setFollowingUsers(prevFollowing => prevFollowing.filter(user => user.id !== userId));
-    const unfollowedUser = allUsers.find(user => user.id === userId);
+    setAllUsers(prevAllUsers => [...prevAllUsers, unfollowedUser]);
     notify(`You unfollowed ${unfollowedUser.name}`);
-    setAnimationClass('transition-transform transform translate-x-full');
   };
 
   const notify = (message) => toast.info(message);
@@ -52,7 +53,7 @@ const Users = ({ isLoggedIn }) => {
 
       {isLoggedIn && (
         <>
-          <h2 className="mb-4 text-3xl font-bold">Following Users</h2>
+          <h2 className="mb-4 text-3xl font-bold">Following</h2>
           <Row className={`items-center ${animationClass}`}>
             {followingUsers.map((user) => (
               <Col key={user.id} className="mb-4">
@@ -60,7 +61,7 @@ const Users = ({ isLoggedIn }) => {
                   <div className="rounded-full overflow-hidden">
                     <img
                       src={user.thumbnailUrl}
-                      className="w-20 h-20 object-cover cursor-pointer"
+                      className="w-20 h-20 object-cover cursor-pointer rounded-full"
                       alt=''
                     />
                   </div>
@@ -82,7 +83,7 @@ const Users = ({ isLoggedIn }) => {
             ))}
           </Row>
           <hr className="my-8 border-t" />
-          <h2 className="mb-4 text-3xl font-bold">All Users</h2>
+          <h2 className="mb-4 text-3xl font-bold"> Recommended Users </h2>
           <Row className={`items-center ${animationClass}`}>
             {filteredUsers.map((user) => (
               <Col key={user.id} className="mb-4">
@@ -90,7 +91,7 @@ const Users = ({ isLoggedIn }) => {
                   <div className="rounded-full overflow-hidden">
                     <img
                       src={user.thumbnailUrl}
-                      className="w-20 h-20 object-cover cursor-pointer"
+                      className="w-20 h-20 object-cover cursor-pointer rounded-full"
                       alt=''
                     />
                   </div>
@@ -100,23 +101,13 @@ const Users = ({ isLoggedIn }) => {
                   </div>
                 </div>
                 <div className="ml-auto flex items-center">
-                  {followingUsers.some(followingUser => followingUser.id === user.id) ? (
-                    <Button
-                      color="success"
-                      className="ml-2 transform translate-x-full transition-transform"
-                      onClick={() => handleUnfollow(user.id)}
-                    >
-                      Unfollow
-                    </Button>
-                  ) : (
-                    <Button
-                      color="danger"
-                      className="ml-2 transform translate-x-full transition-transform"
-                      onClick={() => handleFollow(user.id)}
-                    >
-                      Follow
-                    </Button>
-                  )}
+                  <Button
+                    color="primary"
+                    className="ml-2 transform translate-x-full transition-transform"
+                    onClick={() => handleFollow(user.id)}
+                  >
+                    Follow
+                  </Button>
                 </div>
               </Col>
             ))}

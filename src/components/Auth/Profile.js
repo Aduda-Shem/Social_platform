@@ -29,7 +29,6 @@ const Profile = () => {
       <div className="text-center mb-4">
         {user && (
           <div className="relative">
-            <div className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 opacity-80"></div>
             <img
               src={user.url}
               alt="Profile Pic"
@@ -37,22 +36,24 @@ const Profile = () => {
             />
           </div>
         )}
-        <h2 className="text-3xl font-semibold text-gray-800">{user.name}</h2>
-        <p className="text-gray-600">@{user.username}</p>
+        <h2 className="text-3xl font-semibold text-gray-800">@{user.username}</h2>
+        <p className="text-gray-600">{user.name}</p>
       </div>
 
       {user && (
         <Row className="mb-6">
           <Col>
             <p className="text-gray-700 mb-2">
-              <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> <span className="icon">&#x1F4E7;</span> {user.email}
             </p>
             <p className="text-gray-700 mb-2">
               <strong>Address:</strong>{" "}
+              <span className="icon">&#x1F3E0;</span>{" "}
               {`${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`}
             </p>
             <p className="text-gray-700 mb-2">
               <strong>Geolocation:</strong>{" "}
+              <span className="icon">&#x1F30E;</span>{" "}
               {`Lat: ${user.address.geo.lat}, Lng: ${user.address.geo.lng}`}
             </p>
           </Col>
@@ -60,11 +61,9 @@ const Profile = () => {
       )}
 
       <div className="text-center mt-6">
-        <a
-          className="bg-gradient-to-br from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full inline-block hover:from-blue-600 hover:to-purple-600 transition duration-300"
-        >
+        <button className="bg-gradient-to-br from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full inline-block hover:from-blue-600 hover:to-purple-600 transition duration-300">
           Edit Profile
-        </a>
+        </button>
       </div>
     </Container>
   );
